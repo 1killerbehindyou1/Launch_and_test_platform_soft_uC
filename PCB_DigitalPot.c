@@ -4,12 +4,12 @@
  * Created: 25.07.2019 15:33:34
  *  Author: Kolunio
  */ 
-#include "pot.h"
+#include "PCB_DigitalPot.h"
 #include <util/delay.h>
-#include "I2C_dev.h"
-#include "uart.h"
+
+
 #include <avr/io.h>
-#include "adc.h"
+
 #define sbi(PORT,PIN) ((PORT)|=1<<(PIN))
 #define cbi(PORT,PIN) ((PORT)&=~(1<<(PIN)))
 
@@ -22,7 +22,7 @@ void pot_init(void)
 
 
 
-void trig_pot(uint8_t k)
+void trig_pot(uint8_t nr,uint8_t k)
 {
 	if(k == down)
 	{

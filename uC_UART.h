@@ -5,17 +5,15 @@
  *  Author: Kolunio
  */ 
 
+#include <avr/sfr_defs.h>
+#include <avr/io.h>
 
 #ifndef UART_H_
 #define UART_H_
 #define F_CPU 16000000UL
-#define BAUD 38400  //domyaslna dla mod bluetooth
-
+	#define BAUD 38400										//domyaslna dla mod bluetooth
 #define baud_setting  ((F_CPU / (16UL * BAUD)) - 1)
-#define ROZMIAR 256  //wielkosc bufora cyklicznego
-#include <avr/sfr_defs.h>
-#include <avr/io.h>
-
+#define ROZMIAR 256										//wielkosc bufora cyklicznego
 #define	UART_BAUD_RATE_LOW			UBRR1L
 	#define	UART_STATUS_REG				UCSR1A
 	#define	UART_CONTROL_REG			UCSR1B
@@ -81,29 +79,25 @@ typedef struct  {
 	 char *buffer_pointer;
 	uint8_t poczatek;
 	uint8_t koniec;
-}bufor_cykliczny;   //struktura dla typu bufor_cykliczny
-
+}bufor_cykliczny;									//struktura dla typu bufor_cykliczny
  
-char RX_buf[8];  //bufor na polecenia, odbiorczy
-
-//static int	Serial_Available(void); //swprawdza dostepnosc UART
-int UART_TX_bufor_dopisz( bufor_cykliczny* ,char ); //dopisuje dana do bufora 
-void UART_TX_bufor_wyslij(bufor_cykliczny* );  //wysy³a zaw bufora po UARbatT
-void Print_to_buf( bufor_cykliczny* , char *); //drukuje do wskazanego bufora
+char RX_buf[8];										//bufor na polecenia, odbiorczy
+/*
 //static unsigned char recchar_timeout(void);   //timeout na odbieranie danych po UART
-void	PrintDecInt(int , int );void	PrintHexByte(unsigned char );
-void	PrintNewLine(void);
-void	PrintMESSAGES(const void *, unsigned char );
-
+//static int	Serial_Available(void); //swprawdza dostepnosc UART
+*/
+int UART_TX_buf_writein( bufor_cykliczny* ,char ); //dopisuje dana do bufora 
+void UART_TX_bufor_send(bufor_cykliczny* );		//wys?a zaw. bufora po UART
+void Print_to_buf( bufor_cykliczny* , char *);		//drukuje do wskazanego bufora
+void PrintDecInt(int , int );void PrintHexByte(unsigned char );
+void PrintNewLine(void);
+void PrintMESSAGES(const void *, unsigned char );
 void clear_RX(void);
-void rsSndByte(char );  //elementarna funkcja funkcja drukuje znak
-void rsPrint(char *);		//drukuje string bez buforowania
-void rsPrintfloat(float );   //drukuje vartosc float bez buforowania
-
-void init_UART(void);
-char * ftoch(float );  //konwersja z float na string
-
+void rsSndByte(char );							//elementarna funkcja funkcja drukuje znak
+void rsPrint(char *);							//drukuje string bez buforowania
+void rsPrintfloat(float );						//drukuje vartosc float bez buforowania
+void init_UART(void);					
 void rsPrintReg(uint8_t,char*);
 void PrintAllReg(void);
-char* decToBin(uint8_t );
+
 #endif /* UART_H_ */

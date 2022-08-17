@@ -17,6 +17,6 @@
 #define up 1
 #define down 0
 void pot_init(void);
-void trig_pot(uint8_t);
+void trig_pot(uint8_t, uint8_t);
 
 #endif /* POT_H_ */

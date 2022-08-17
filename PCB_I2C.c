@@ -4,38 +4,32 @@
  * Created: 28.06.2019 03:45:56
  *  Author: Kolunio
  */ 
-#include "I2C_dev.h"
-#include <avr/io.h>
+#include "uC_UART.h"
+#include "PCB_I2C.h"
+
+
 //DEFINICJE ADRESOW SLAWOW
 #include <util/twi.h>
 #include <util/delay.h> 
-#include "uart.h"
-#include "zasilacz.h"
+#include <avr/io.h>
+
 
 #define sbi(PORT,PIN) ((PORT)|=1<<(PIN))
 #define cbi(PORT,PIN) ((PORT)&=~(1<<(PIN)))
 
  #include <inttypes.h>
+ 
 void init_i2C_dev()
 {
 	
 	 //PORTC|=((1<<PC0)|(1<<PC1)); // wlaczenie podciagania dla i2c
-	 sbi(TWCR,TWEA); //w³¹czenie generacji potwierdzeñ ACK
-	 sbi(TWCR,TWINT); //znacznik przerwania dla modu³u TWI
-	 sbi(TWCR,TWEN); //w³¹czenie modu³u TWI
-	 sbi(TWCR,TWIE); //uaktywnienie przerwañ dla modu³u TWI
+	 sbi(TWCR,TWEA); //w??czenie generacji potwierdze? ACK
+	 sbi(TWCR,TWINT); //znacznik przerwania dla modu?u TWI
+	 sbi(TWCR,TWEN); //w??czenie modu?u TWI
+	 sbi(TWCR,TWIE); //uaktywnienie przerwañ dla modu?u TWI
 	 TWSR = 0;                         /* no prescaler */
 	 TWBR = ((F_CPU/SCL_CLOCK)-16)/2;  /* must be > 10 for stable operation */
 	//reset the pin status
-	/*
-	for(uint8_t i=0; i<I2C_MAXDEVICES; i++)
-	{
-		 Reg.I2C[1][i];
-		 Reg.I2C[2][i];
-		 Reg.I2C[3][i];
-	}
-	
-	*/
 
 }
 
@@ -60,7 +54,7 @@ void pcf8574_init() {
 /*
  * get output status
  */
-int8_t pcf8574_getoutput(uint8_t deviceid) {
+int8_t  PCA9555_getoutput(uint8_t deviceid) {
 	int8_t data = -1;
 	if((deviceid >= 0 && deviceid < PCF8574_MAXDEVICES)) {
 		data = pcf8574_pinstatus[deviceid];
@@ -71,7 +65,7 @@ int8_t pcf8574_getoutput(uint8_t deviceid) {
 /*
  * get output pin status
  */
-int8_t pcf8574_getoutputpin(uint8_t deviceid, uint8_t pin) {
+int8_t  PCA9555_getoutputpin(uint8_t deviceid, uint8_t pin) {
 	int8_t data = -1;
 	if((deviceid >= 0 && deviceid < PCF8574_MAXDEVICES) && (pin >= 0 && pin < PCF8574_MAXPINS)) {
 		data = pcf8574_pinstatus[deviceid];
@@ -83,7 +77,7 @@ int8_t pcf8574_getoutputpin(uint8_t deviceid, uint8_t pin) {
 /*
  * set output pins
  */
-int8_t pcf8574_setoutput(uint8_t adres,uint8_t data) {
+int8_t PCA9555_setoutput(uint8_t adres,uint8_t data) {
 	//if((deviceid >= 0 && deviceid < PCF8574_MAXDEVICES)) {
 		//pcf8574_pinstatus[deviceid] = data;
 		//i2c_start(((PCF8574_ADDRBASE+deviceid)<<1) | I2C_WRITE);
@@ -98,7 +92,7 @@ int8_t pcf8574_setoutput(uint8_t adres,uint8_t data) {
 /*
  * set output pins, replace actual status of a device from pinstart for pinlength with data
  */
-int8_t pcf8574_setoutputpins(uint8_t deviceid, uint8_t pinstart, uint8_t pinlength, int8_t data) {
+int8_t PCA9555_setoutputpins(uint8_t deviceid, uint8_t pinstart, uint8_t pinlength, int8_t data) {
 	//example:
 	//actual data is         0b01101110
 	//want to change              ---
@@ -126,7 +120,7 @@ int8_t pcf8574_setoutputpins(uint8_t deviceid, uint8_t pinstart, uint8_t pinleng
 /*
  * set output pin
  */
-int8_t pcf8574_setoutputpin(uint8_t deviceid, uint8_t pin, uint8_t data) {
+int8_t PCA9555_setoutputpin(uint8_t deviceid, uint8_t pin, uint8_t data) {
 	if((deviceid >= 0 && deviceid < PCF8574_MAXDEVICES) && (pin >= 0 && pin < PCF8574_MAXPINS)) {
 	    uint8_t b = 0;
 	    b = pcf8574_pinstatus[deviceid];
@@ -159,7 +153,7 @@ int8_t pcf8574_setoutputpinlow(uint8_t deviceid, uint8_t pin) {
 /*
  * get input data
  */
-int8_t pcf8574_getinput(uint8_t deviceid) {
+int8_t PCA9555_getinput(uint8_t deviceid) {
 	int8_t data = -1;
 	if((deviceid >= 0 && deviceid < PCF8574_MAXDEVICES)) {
 		i2c_start(((PCF8574_ADDRBASE+deviceid)<<1) | I2C_READ);
@@ -172,7 +166,7 @@ int8_t pcf8574_getinput(uint8_t deviceid) {
 /*
  * get input pin (up or low)
  */
-int8_t pcf8574_getinputpin(uint8_t deviceid, uint8_t pin) {
+int8_t PCA9555_getinputpin(uint8_t deviceid, uint8_t pin) {
 	int8_t data = -1;
 	if((deviceid >= 0 && deviceid < PCF8574_MAXDEVICES) && (pin >= 0 && pin < PCF8574_MAXPINS)) {
 		data = pcf8574_getinput(deviceid);
@@ -185,9 +179,6 @@ int8_t pcf8574_getinputpin(uint8_t deviceid, uint8_t pin) {
 
 void Scan_I2C(void)
 {
-	//uint8_t tab[8];
-	//uint8_t a= 0;
-	
 	for(int i=1;i<128;i++)
 	{
 			i2c_start(i);
@@ -232,35 +223,25 @@ switch (TWSR)
 *************************************************************************/
 unsigned char i2c_start(unsigned char address)
 {
-    uint8_t   twst;
-
-	// send START condition
-	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-
-	// wait until transmission completed
-	while(!(TWCR & (1<<TWINT)));
-
-
-
-	// check value of TWI Status Register. Mask prescaler bits.
+    uint8_t   twst;									
+	TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);    // send START condition										
+	while(!(TWCR & (1<<TWINT)));						// wait until transmission completed
+														// check value of TWI Status Register. Mask prescaler bits.
 	twst = TW_STATUS & 0xF8;
-	if ( (twst != TW_START) && (twst != TW_REP_START)) return 1;
-
-	// send device address
+	if ( (twst != TW_START) && (twst != TW_REP_START)) return 1;										
 	TWDR = address;
+	TWCR = (1<<TWINT) | (1<<TWEN);							// send device address
+										
+	while(!(TWCR & (1<<TWINT)));							// wail until transmission completed and
+															// ACK/NACK has been received
+
 	
-	TWCR = (1<<TWINT) | (1<<TWEN);
-
-	// wail until transmission completed and ACK/NACK has been received
-	while(!(TWCR & (1<<TWINT)));
-
-	// check value of TWI Status Register. Mask prescaler bits.
-	twst = TW_STATUS & 0xF8;
+	twst = TW_STATUS & 0xF8;								// check value of TWI Status Register. Mask prescaler bits.
 	if ( (twst != TW_MT_SLA_ACK) && (twst != TW_MR_SLA_ACK) ) return 1;
 
 	return 0;
 
-}/* i2c_start */
+}
 
 
 /*************************************************************************
