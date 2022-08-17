@@ -34,11 +34,42 @@ arg[3]  = 'v' - napiecie
 arg[4]
 */
 
-char arg[4];
-float value;
+
+
+/*
+typedef struct Reg{
+	//uint8_t device_REG[][];
+	//int* device_Reg_indeks[];
+	uint8_t I2C[][];
+	
+};
+*/
+
+#include "uart.h"
+//#include <avr/sfr_defs.h>
+#include "adc.h"
+#include "I2C_dev.h"
+//#define F_CPU 16000000
+#include "zasilacz.h"
+#include <util/delay.h>
+#include "PWM.h"
+#include "pot.h"
+#include "zasilacz.h"
+#include "pot.h"
+
+typedef struct {
+	float value;
+	char arg[4];
+	
+}KOM;
+ 
+ 
+KOM polecenie;
+
+
 
 #define USTAW '1'
-	#define Zasilacz "z"
+	/*#define Zasilacz "z"
 		
 	
 	
@@ -46,7 +77,7 @@ float value;
 #define wyjscie_analogowe "a"
 #define komparator "c"
 #define przekaznik "r"
-
+*/
 #define WYSWIETL '2'
 
 
@@ -55,8 +86,8 @@ float value;
 //*****************************************//
 
 
-
-
+void config_ext_int(void);
+void inicjalizacja_urzadzenPCB(void);
 void inicjalizacja_mikrokontrolera(void); 
 void Diagnostyka(void);
 void Skanuj(void);    //skanuje co okreœlony czas wszytkie parametry, oraz wysy³a je wszystkie po UART 

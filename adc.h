@@ -10,7 +10,7 @@
 #define ADC_H_
 
 void adc_init(void);
-float adc_run_one(void);
+float adc_run_one();
 
 
 #endif /* ADC_H_ */
