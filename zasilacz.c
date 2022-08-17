@@ -5,22 +5,17 @@
  *  Author: Kolunio
  */ 
 #include <avr/sfr_defs.h>
+#include "uart.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <math.h>
 #include <stdlib.h>
 #include <util/delay.h>
-
-
-#include "uC_ADC.h"
-
-#include "Command.h"
-#include "uC_UART.h"
-
-#include "PCB_I2C.h"
-
-#include "PCB_PowSupply.h"
-#include "PCB_DigitalPot.h"
+#include "I2C_dev.h"
+#include "adc.h"
+#include "pot.h"
+#include "zasilacz.h"
+#include "Procedury_dla_main.h"
 extern  buffer_TX;
 
 Zasilacz CHANNEL[]={			//Tablica struktur dla 4 zasilaczy z domyślnymi wartościami

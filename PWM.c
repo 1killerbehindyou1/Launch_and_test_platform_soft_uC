@@ -5,23 +5,13 @@
  *  Author: Kolunio
  */ 
 #define F_CPU 16000000UL
-
+#include "PWM.h"
 #include <avr/io.h>
-
-
+#include "Procedury_dla_main.h"
+#include "adc.h"
 #include <util/delay.h>
-
+#include "uart.h"
 //#include "zasilacz.h"
-
-
-#include "uC_UART.h"
-#include "uC_ADC.h"
-#include "PCB_I2C.h"
-
-#include "PCB_PowSupply.h"
-#include <util/delay.h>
-#include "uC_PWM.h"
-
 
 void PWM0_init(void)
 {

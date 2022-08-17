@@ -4,17 +4,17 @@
  * Created: 02.07.2019 08:05:09
  *  Author: Kolunio
  */ 
-#include "Parse_Type.h"
-#include "Command.h"
+#include "Procedury_dla_main.h"
 #include <avr/sfr_defs.h>
-#include "uC_UART.h"
+#include "uart.h"
 //#include "zasilacz.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <math.h>
 #include <stdlib.h>
 #include <util/delay.h>
-
+char flstr [8];
+char bin[9];
 char TX_buf_scan[ROZMIAR];							//tablica dla bufora cykliczego
 
 bufor_cykliczny buffer_TX={TX_buf_scan,0,0};		//bufor uzywany przy wysy?aniu raportu

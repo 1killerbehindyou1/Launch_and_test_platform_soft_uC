@@ -150,55 +150,49 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="uC_ADC.c">
+    <Compile Include="adc.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uC_ADC.h">
+    <Compile Include="adc.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Parse_Type.c">
+    <Compile Include="I2C_dev.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PCB_I2C.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="PCB_I2C.h">
+    <Compile Include="I2C_dev.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PCB_DigitalPot.c">
+    <Compile Include="pot.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PCB_DigitalPot.h">
+    <Compile Include="pot.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Command.c">
+    <Compile Include="Procedury_dla_main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Command.h">
+    <Compile Include="Procedury_dla_main.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PCB_PowSupply.c">
+    <Compile Include="zasilacz.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PCB_PowSupply.h">
+    <Compile Include="zasilacz.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uC_PWM.c">
+    <Compile Include="PWM.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uC_PWM.h">
+    <Compile Include="PWM.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Parse_Type.h">
+    <Compile Include="uart.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uC_UART.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="uC_UART.h">
+    <Compile Include="uart.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

@@ -6,25 +6,25 @@
  */ 
 #include <avr/interrupt.h>
 #include <avr/io.h>
+ #include "Procedury_dla_main.h"
+#include "uart.h"
+//#include <avr/sfr_defs.h>
+#include "adc.h"
+#include "I2C_dev.h"
+//#define F_CPU 16000000
+#include "zasilacz.h"
 #include <util/delay.h> 
-
-#include "Command.h"
-#include "uC_UART.h"
-#include "uC_ADC.h"
-#include "PCB_I2C.h"
-#include "PCB_PowSupply.h"
-#include "uC_PWM.h"
-#include "PCB_DigitalPot.h"
-#include "Parse_Type.h"
+#include "PWM.h"
+#include "pot.h"
+#include "zasilacz.h"
+#include "pot.h"
 #define INC PORTC6
 #define U_D PORTC7
-
-uint8_t RecievCharCount =0;
-
+int b =0;
 extern bufor_cykliczny buffer_TX;
 extern KOM polecenie;
-extern uint8_t flag_val;
-extern uint8_t flag_pol;
+ extern uint8_t flag_val;
+ extern uint8_t flag_pol;
 extern Zasilacz CHANNEL[];
 
 int main(void)
@@ -64,17 +64,17 @@ ISR(USART1_RX_vect)								//Przerwanie od przychodz¹cej komendy wyw gdy dana w 
 {
 sbi(PORTD,PIND5);	 
 	
-	if(RecievCharCount < 8)									// odbieranie komendy do bufora polecen
+	if(b < 8)									// odbieranie komendy do bufora polecen
 	{	
-		RX_buf[RecievCharCount]= UDR1;
-		RecievCharCount++;	
+		RX_buf[b]= UDR1;
+		b++;	
 	}
 	
-	 if ((RecievCharCount >= 8)||(RX_buf[RecievCharCount-1]== mark_end))			//rozpoznano znak konca '/' 
+	 if ((b >= 8)||(RX_buf[b-1]== '/'))			//rozpoznano znak konca '/' 
 	{
 		
 		UART_Get_command();
-		RecievCharCount=0;
+		b=0;
 		
 	}
 	

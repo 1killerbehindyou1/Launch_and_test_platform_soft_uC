@@ -4,15 +4,13 @@
  * Created: 28.06.2019 03:45:56
  *  Author: Kolunio
  */ 
-#include "uC_UART.h"
-#include "PCB_I2C.h"
-
-
+#include "I2C_dev.h"
+#include <avr/io.h>
 //DEFINICJE ADRESOW SLAWOW
 #include <util/twi.h>
 #include <util/delay.h> 
-#include <avr/io.h>
-
+#include "uart.h"
+//#include "zasilacz.h"
 
 #define sbi(PORT,PIN) ((PORT)|=1<<(PIN))
 #define cbi(PORT,PIN) ((PORT)&=~(1<<(PIN)))

@@ -4,12 +4,12 @@
  * Created: 25.07.2019 15:33:34
  *  Author: Kolunio
  */ 
-#include "PCB_DigitalPot.h"
+#include "pot.h"
 #include <util/delay.h>
-
-
+#include "I2C_dev.h"
+#include "uart.h"
 #include <avr/io.h>
-
+#include "adc.h"
 #define sbi(PORT,PIN) ((PORT)|=1<<(PIN))
 #define cbi(PORT,PIN) ((PORT)&=~(1<<(PIN)))
 

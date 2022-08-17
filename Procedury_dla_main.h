@@ -45,15 +45,17 @@ typedef struct Reg{
 };
 */
 
-#include "uC_UART.h"
-#include "uC_ADC.h"
-#include "PCB_I2C.h"
-
-#include "PCB_PowSupply.h"
+#include "uart.h"
+//#include <avr/sfr_defs.h>
+#include "adc.h"
+#include "I2C_dev.h"
+//#define F_CPU 16000000
+#include "zasilacz.h"
 #include <util/delay.h>
-#include "uC_PWM.h"
-#include "PCB_DigitalPot.h"
-
+#include "PWM.h"
+#include "pot.h"
+#include "zasilacz.h"
+#include "pot.h"
 
 typedef struct {
 	float value;
@@ -67,38 +69,19 @@ KOM polecenie;
 #define WYSWIETL 1
 #define ZMIEN_TRYB 2
 
-#define ZASILACZ_ 'z'	
-#define GENERATOR 'g'
-#define WYJSCIE_ANALOGOWE 'a'
-#define KOMPARATOR 'c'
-#define PRZEKAZNIK 'r'
+#define Zasila 'z'	
+#define generator 'g'
+#define wyjscie_analogowe 'a'
+#define komparator 'c'
+#define przekaznik 'r'
 
 	
-	#define PRZEBIEG 'p'
-	#define CZESTOTLIWOSC 'f'
-	#define OGRANICZENIE 'c'
-	#define NAPIECIE 'v'
+	#define przebieg 'p'
+	#define czestotliwosc 'f'
+	#define ograniczenie 'c'
+	#define napiecie 'v'
 	
 
-#define operation 0
-#define device 1
-#define parameter 2
-#define channel 3
-
-/*
-polecenie.arg[0] == polecenie.arg[operation]
-polecenie.arg[1]== polecenie.arg[device]
-polecenie.arg[2]== polecenie.arg[parameter]
-polecenie.arg[3]==	polecenie.arg[channel]
-*/
-
-#define mark_arg '*'
-#define mark_val '#'
-#define mark_end '/'
-
-#define END_OF_TAB '\0'
-#define SET 1
-#define CLR 0
 //*****************************************//
 
 
@@ -111,3 +94,7 @@ void UART_raport(char *result);
 void UART_Get_command(void);          //pobiera rozkaz i zwraca tablice
 void Decode_command(void);
 
+char * ftoch(float );	
+float chartofl(char * );
+char *intoch(int);
+char* decToBin(uint8_t );
